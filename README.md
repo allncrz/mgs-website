@@ -32,3 +32,14 @@ For Git-based Cloudflare Pages deployments: Framework preset **None**, build com
 - Contact form opens the visitor's email client using mailto; it does not send server-side and requires the visitor to send the email.
 - Google Fonts require network access; fallback fonts are included.
 - Do not upload private customer data into the static site.
+
+## Loading screen
+All six pages include a lightweight animated leaf loading screen. It fades after the initial page and visible images are ready, with a safety timeout and reduced-motion support. Update the inline `site-loader-style` and `site-loader` markup in each `index.html` to customize it.
+
+
+### Text entrance animations
+Headings, subtitles, and selected supporting text gently fade and rise into view as users scroll. Animations are staggered, play once, work on all pages, and respect the operating system's Reduce Motion setting. The existing leaf loader is preserved. Customize the effect in `assets/style.css` under `Text introductions` and the observer in `assets/app.js`.
+
+
+## Hero intro transition
+The homepage hero now fades/zooms the background image and staggers the headline, description and CTA buttons after the existing leaf loader. Respects reduced-motion preferences. Edit `assets/style.css` and `assets/app.js` to adjust timings.

@@ -17,3 +17,37 @@ function contact(){return `${pageHero('Contact us','Let’s Talk About Your Proj
 const pages={home,about,products,services,projects,contact};document.getElementById('app').innerHTML=header()+(pages[page]||home)()+footer();document.getElementById('menu-toggle').addEventListener('click',()=>{const menu=document.getElementById('nav-links');const open=menu.classList.toggle('open');document.getElementById('menu-toggle').setAttribute('aria-expanded',String(open))});
 if(page==='products'){let categories=['All',...new Set(productData.map(p=>p.category))];let selected='All';const filters=document.getElementById('filters'),grid=document.getElementById('products-grid');function render(){filters.innerHTML=categories.map(c=>`<button class="filter ${selected===c?'active':''}" data-category="${c}">${c}</button>`).join('');grid.innerHTML=productData.filter(p=>selected==='All'||p.category===selected).map(p=>card(p,'products')).join('');filters.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{selected=b.dataset.category;render()}))}render()}
 if(page==='contact'){const params=new URLSearchParams(location.search);let subject=params.get('subject');if(['Product Inquiry','Service Quotation','General Inquiry'].includes(subject))document.querySelector('[name="subject"]').value=subject;document.getElementById('inquiry').addEventListener('submit',e=>{e.preventDefault();const d=new FormData(e.currentTarget);const s=String(d.get('subject'));const body=`Name: ${d.get('name')}\nEmail: ${d.get('email')}\nInquiry: ${s}\n\n${d.get('message')}`;location.href=`mailto:${contactEmail}?subject=${encodeURIComponent(s)}&body=${encodeURIComponent(body)}`})}
+
+// Prepare the hero while the leaf loader is still covering the page.
+(function(){const hero=document.querySelector('.hero');if(hero&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches)hero.classList.add('hero-intro-pending')})();
+
+// Remove the shared loading screen after the page markup and critical images are ready.
+(function(){const loader=document.getElementById('site-loader');if(!loader)return;let done=false;const started=performance.now();function hide(){if(done)return;done=true;const wait=Math.max(0,350-(performance.now()-started));setTimeout(()=>{loader.classList.add('is-hidden');loader.setAttribute('aria-hidden','true');const hero=document.querySelector('.hero');if(hero){hero.classList.remove('hero-intro-pending');hero.classList.add('hero-intro-playing')};setTimeout(()=>loader.remove(),450)},wait)}const critical=[...document.querySelectorAll('img')].filter(img=>{const r=img.getBoundingClientRect();return r.top<window.innerHeight&&r.bottom>0}).slice(0,4);Promise.race([Promise.all(critical.map(img=>img.complete?Promise.resolve():new Promise(resolve=>{img.addEventListener('load',resolve,{once:true});img.addEventListener('error',resolve,{once:true})}))),new Promise(resolve=>setTimeout(resolve,2400))]).then(hide);window.addEventListener('load',hide,{once:true});setTimeout(hide,4500)})();
+
+// Text-only entrance animations. Reveal on first viewport entry and leave text visible.
+(function(){
+  const root=document.getElementById('app');
+  if(!root)return;
+  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const targets='h1,h2,h3,.eyebrow,.hero p,.page-hero p,.story-copy p,.section-head p,.value strong,.value span:last-child,.card-body p,.split-card p,.cta-layout h2';
+  if(reduced||!('IntersectionObserver' in window))return;
+  document.documentElement.classList.add('text-intro-ready');
+  const observer=new IntersectionObserver(entries=>{
+    for(const entry of entries){if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target)}}
+  },{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
+  function register(scope){
+    const nodes=[...scope.querySelectorAll(targets)];
+    nodes.forEach(el=>{
+      if(el.classList.contains('text-intro'))return;
+      el.classList.add('text-intro');
+      const siblings=el.parentElement?[...el.parentElement.children].filter(n=>n.matches&&n.matches(targets)):[];
+      el.style.setProperty('--intro-delay',Math.min(Math.max(0,siblings.indexOf(el)),4)*85+'ms');
+      observer.observe(el);
+    });
+  }
+  register(root);
+  // Product category filtering replaces card markup; animate the new titles too.
+  const grid=document.getElementById('products-grid');
+  if(grid)new MutationObserver(()=>register(grid)).observe(grid,{childList:true});
+  // Existing leaf preloader remains intact; reveals start as it fades away.
+})();
