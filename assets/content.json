@@ -1,0 +1,78 @@
+{
+  "products": [
+    {
+      "id": "ornamental-plants",
+      "name": "Ornamental Plants",
+      "category": "Plants & Seedlings",
+      "description": "Indoor and outdoor plant varieties for home and garden spaces.",
+      "image": "product-plants.webp",
+      "featured": true
+    },
+    {
+      "id": "garden-soil",
+      "name": "Garden Soil & Compost",
+      "category": "Soil & Growing Media",
+      "description": "Growing media for planting and soil preparation.",
+      "image": "product-soil.webp",
+      "featured": true
+    },
+    {
+      "id": "fertilizers",
+      "name": "Fertilizers",
+      "category": "Fertilizers",
+      "description": "Plant nutrition and gardening essentials.",
+      "image": "product-fertilizer.webp",
+      "featured": true
+    },
+    {
+      "id": "pots",
+      "name": "Pots & Planters",
+      "category": "Pots & Planters",
+      "description": "Practical and decorative containers for plants.",
+      "image": "product-pots.webp",
+      "featured": true
+    }
+  ],
+  "services": [
+    {
+      "name": "Landscape Design",
+      "description": "Thoughtful outdoor space planning and garden design.",
+      "image": "services-banner.webp"
+    },
+    {
+      "name": "Garden Maintenance",
+      "description": "Routine care and upkeep for garden spaces.",
+      "image": "project-commercial.webp"
+    },
+    {
+      "name": "Plant Installation",
+      "description": "Planting and softscape installation for outdoor areas.",
+      "image": "story.webp"
+    },
+    {
+      "name": "Garden Improvement",
+      "description": "Refreshing and enhancing existing garden spaces.",
+      "image": "project-residential.webp"
+    }
+  ],
+  "projects": [
+    {
+      "name": "Residential Garden Concept",
+      "category": "Residential",
+      "description": "Illustrative portfolio layout for a residential landscape project.",
+      "image": "project-residential.webp"
+    },
+    {
+      "name": "Commercial Outdoor Concept",
+      "category": "Commercial",
+      "description": "Illustrative portfolio layout for a commercial outdoor space.",
+      "image": "project-commercial.webp"
+    },
+    {
+      "name": "Institutional Landscape Concept",
+      "category": "Institutional",
+      "description": "Illustrative portfolio layout for an institutional garden.",
+      "image": "project-institutional.webp"
+    }
+  ]
+}
